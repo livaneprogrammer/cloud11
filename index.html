@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nova — Clean, Modern, Responsive Website</title>
+  <meta name="description" content="A clean, modern, responsive single‑file HTML template with semantic markup, accessibility, and no external dependencies." />
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>✨</text></svg>">
+  <meta property="og:title" content="Nova — Clean, Modern, Responsive Website" />
+  <meta property="og:description" content="A single‑file HTML template with sections, pricing, testimonials, and a contact form." />
+  <meta property="og:type" content="website" />
+  <style>
+    /* ===== CSS RESET (modernized) ===== */
+    *,*::before,*::after{box-sizing:border-box}
+    html:focus-within{scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;line-height:1.6}
+    img,picture,svg,video,canvas{max-width:100%;display:block}
+    input,button,textarea,select{font:inherit}
+    @media (prefers-reduced-motion:reduce){html:focus-within{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+    /* ===== THEME ===== */
+    :root{
+      --bg: #0b1220;            /* page background */
+      --panel: #0f172a;         /* cards/nav/footer */
+      --muted: #94a3b8;         /* secondary text */
+      --text: #e2e8f0;          /* primary text */
+      --brand: #7c3aed;         /* primary brand */
+      --brand-2: #22d3ee;       /* accent */
+      --ring: rgba(124,58,237,.35);
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(2,6,23,.45);
+      --shadow-soft: 0 6px 18px rgba(2,6,23,.30);
+      --maxw: 1200px;
+      --pad: clamp(16px, 2vw, 24px);
+      --hero-h: min(92vh, 860px);
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#f8fafc; --panel:#ffffff; --text:#0f172a; --muted:#475569; --shadow:0 12px 28px rgba(15,23,42,.12); --shadow-soft:0 6px 18px rgba(15,23,42,.10); }
+    }
+
+    body{background:radial-gradient(1200px 600px at 10% -10%, rgba(34,211,238,.20), transparent 70%),
+                  radial-gradient(1000px 500px at 90% 0%, rgba(124,58,237,.20), transparent 70%),
+                  var(--bg); color:var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";}
+
+    .container{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad)}
+    .stack{display:grid;gap:clamp(20px,2.4vw,36px)}
+    .row{display:flex;flex-wrap:wrap;gap:24px}
+
+    a{color:var(--brand-2);text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* ===== NAV ===== */
+    .nav{position:sticky;top:0;z-index:50;backdrop-filter:saturate(120%) blur(6px); background:linear-gradient(180deg, rgba(15,23,42,.8), rgba(15,23,42,.6)); border-bottom:1px solid rgba(226,232,240,.08)}
+    .nav .wrap{display:flex;align-items:center;justify-content:space-between;padding:14px var(--pad)}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}
+    .brand-logo{width:36px;height:36px;border-radius:10px;background:
+      conic-gradient(from 180deg at 50% 50%, var(--brand), var(--brand-2) 40%, var(--brand) 80%);
+      box-shadow:inset 0 0 18px rgba(255,255,255,.25), var(--shadow-soft)}
+
+    .navlinks{display:flex;gap:18px;align-items:center}
+    .navlinks a{color:var(--text);opacity:.88;padding:8px 10px;border-radius:10px}
+    .navlinks a:hover{opacity:1;background:rgba(124,58,237,.14)}
+    .cta{background:linear-gradient(135deg, var(--brand), var(--brand-2));color:#fff;padding:10px 16px;border-radius:12px;box-shadow:var(--shadow);border:0}
+    .cta:hover{transform:translateY(-1px)}
+
+    .menu-btn{display:none;background:none;border:0;color:var(--text);font-size:28px}
+    @media (max-width: 800px){
+      .navlinks{display:none}
+      .menu-btn{display:block}
+      .mobile{display:none;position:absolute;inset:58px var(--pad) auto var(--pad);background:var(--panel);border:1px solid rgba(226,232,240,.08);border-radius:14px;padding:12px;box-shadow:var(--shadow-soft)}
+      .mobile a{display:block;padding:12px;border-radius:10px;color:var(--text)}
+      .mobile a:hover{background:rgba(124,58,237,.14)}
+      .mobile.show{display:block}
+    }
+
+    /* ===== HERO ===== */
+    .hero{min-height:var(--hero-h);display:grid;place-items:center;padding-top:40px}
+    .hero .grid{display:grid;gap:28px;align-items:center;grid-template-columns:1.1fr 1fr}
+    .hero h1{font-size:clamp(34px, 6vw, 54px);line-height:1.08;margin:0}
+    .lead{font-size:clamp(16px,2.2vw,20px);color:var(--muted)}
+    .hero-card{background:var(--panel);padding:20px;border-radius:var(--radius);box-shadow:var(--shadow-soft);border:1px solid rgba(226,232,240,.06)}
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.35);color:#a5f3fc;font-weight:600;font-size:12px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:10px;border:0;padding:12px 18px;border-radius:12px;cursor:pointer;font-weight:700}
+    .btn.primary{background:linear-gradient(135deg, var(--brand), var(--brand-2));color:white;box-shadow:var(--shadow)}
+    .btn.ghost{background:transparent;border:1px solid rgba(226,232,240,.14);color:var(--text)}
+    .bullet{display:flex;align-items:center;gap:10px;color:var(--muted)}
+
+    .phone{aspect-ratio:9/19;border-radius:28px;border:1px solid rgba(226,232,240,.12);background:radial-gradient(120% 120% at 0% 0%, rgba(124,58,237,.35), transparent 50%),
+linear-gradient(180deg, rgba(15,23,42,.9), rgba(15,23,42,.6));box-shadow:var(--shadow);padding:8px}
+    .screen{border-radius:22px;overflow:hidden;background:#0b1220;height:100%}
+    .status{height:26px;background:linear-gradient(90deg, rgba(255,255,255,.06), transparent);}
+    .app{display:grid;gap:14px;padding:14px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));border:1px solid rgba(226,232,240,.10);border-radius:14px;padding:14px}
+
+    @media (max-width: 980px){
+      .hero .grid{grid-template-columns:1fr}
+    }
+
+    /* ===== FEATURES ===== */
+    section{padding:80px 0}
+    .section-title{font-size:clamp(24px,4vw,36px);margin:0 0 10px}
+    .section-sub{color:var(--muted);margin:0 0 24px}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .feature{background:var(--panel);border:1px solid rgba(226,232,240,.08);border-radius:16px; padding:18px; box-shadow:var(--shadow-soft)}
+    .icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:rgba(124,58,237,.18);border:1px solid rgba(124,58,237,.35)}
+    .feature h3{margin:12px 0 6px}
+    @media (max-width: 900px){ .features{grid-template-columns:1fr 1fr} }
+    @media (max-width: 620px){ .features{grid-template-columns:1fr} }
+
+    /* ===== SHOWCASE ===== */
+    .showcase{display:grid;grid-template-columns:1.2fr 1fr;gap:22px;align-items:center}
+    .showcase .img{border-radius:18px;min-height:260px;background:linear-gradient(135deg, rgba(124,58,237,.25), rgba(34,211,238,.25)), url('https://images.unsplash.com/photo-1547658719-da2b51169166?q=80&w=1200&auto=format&fit=crop'); background-size:cover; background-position:center; box-shadow:var(--shadow)}
+    @media (max-width: 980px){ .showcase{grid-template-columns:1fr} }
+
+    /* ===== STATS ===== */
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+    .stat{background:var(--panel);padding:20px;border-radius:16px;border:1px solid rgba(226,232,240,.08);text-align:center}
+    .stat .num{font-weight:900;font-size:clamp(28px,5vw,40px)}
+    .stat .label{color:var(--muted)}
+    @media (max-width: 900px){ .stats{grid-template-columns:1fr 1fr} }
+    @media (max-width: 520px){ .stats{grid-template-columns:1fr} }
+
+    /* ===== PRICING ===== */
+    .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .plan{background:var(--panel);border:1px solid rgba(226,232,240,.10);border-radius:18px;box-shadow:var(--shadow-soft);padding:22px; position:relative}
+    .plan.popular{outline:2px solid var(--brand);}
+    .price{font-size:clamp(26px,4vw,38px);font-weight:900}
+    .plan ul{list-style:none;padding:0;margin:14px 0}
+    .plan li{display:flex;gap:10px;align-items:center;margin:8px 0}
+    .plan li::before{content:"✔";color:var(--success)}
+    @media (max-width: 980px){ .pricing{grid-template-columns:1fr} }
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    blockquote{margin:0; padding:18px; background:var(--panel); border-radius:16px; border:1px solid rgba(226,232,240,.10); box-shadow:var(--shadow-soft)}
+    .cite{display:flex;align-items:center;gap:12px;margin-top:12px;color:var(--muted)}
+    .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg, var(--brand), var(--brand-2))}
+    @media (max-width: 900px){ .testimonials{grid-template-columns:1fr} }
+
+    /* ===== CONTACT ===== */
+    form{display:grid;gap:12px}
+    .field{display:grid;gap:6px}
+    label{font-weight:700}
+    input,textarea,select{background:rgba(255,255,255,.04); color:var(--text); border:1px solid rgba(226,232,240,.16); border-radius:12px; padding:12px}
+    input:focus,textarea:focus,select:focus{outline:none; box-shadow:0 0 0 4px var(--ring)}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:700px){ .grid-2{grid-template-columns:1fr} }
+
+    /* ===== FOOTER ===== */
+    footer{background:linear-gradient(180deg, rgba(15,23,42,.85), rgba(15,23,42,.95)); border-top:1px solid rgba(226,232,240,.08); padding:40px 0; margin-top:60px}
+    .footgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr; gap:18px}
+    .footgrid h4{margin:0 0 10px}
+    .muted{color:var(--muted)}
+    @media (max-width: 980px){ .footgrid{grid-template-columns:1fr 1fr} }
+    @media (max-width: 620px){ .footgrid{grid-template-columns:1fr} }
+
+    /* Utility */
+    .center{text-align:center}
+    .pill{display:inline-block;padding:8px 12px;border-radius:999px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3)}
+    .divider{height:1px;background:linear-gradient(90deg, transparent, rgba(226,232,240,.1), transparent); margin:18px 0}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+    .skip-link:focus{left:10px;top:10px;width:auto;height:auto;background:#fff;color:#000;border-radius:8px;padding:8px 10px;z-index:1000}
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- ===== NAV ===== -->
+  <nav class="nav" aria-label="Global">
+    <div class="container wrap">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true"></div>
+        <span>Nova</span>
+      </div>
+      <button class="menu-btn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open Menu">☰</button>
+      <div class="navlinks" role="menubar">
+        <a href="#features" role="menuitem">Features</a>
+        <a href="#showcase" role="menuitem">Showcase</a>
+        <a href="#pricing" role="menuitem">Pricing</a>
+        <a href="#contact" role="menuitem">Contact</a>
+        <a class="cta" href="#cta">Get Started</a>
+      </div>
+      <div id="mobileMenu" class="mobile" role="menu" aria-label="Mobile">
+        <a href="#features" role="menuitem">Features</a>
+        <a href="#showcase" role="menuitem">Showcase</a>
+        <a href="#pricing" role="menuitem">Pricing</a>
+        <a href="#contact" role="menuitem">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero" id="home">
+    <div class="container grid">
+      <div class="stack">
+        <span class="chip">New • Version 2.0 ships today</span>
+        <h1>Build a stunning website in minutes — no dependencies required.</h1>
+        <p class="lead">This single‑file template is fast, responsive, accessible, and easy to customize. Copy, paste, and make it yours.</p>
+        <div class="actions">
+          <a class="btn primary" href="#cta">Start Now</a>
+          <a class="btn ghost" href="#showcase">See How It Works</a>
+        </div>
+        <div class="row">
+          <div class="bullet">⚡ Lightweight, single HTML file</div>
+          <div class="bullet">🔒 Accessible & semantic</div>
+          <div class="bullet">📱 Fully responsive</div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="phone" aria-label="App preview">
+          <div class="screen">
+            <div class="status"></div>
+            <div class="app">
+              <div class="card">
+                <strong>Welcome to Nova</strong>
+                <p class="muted">Your minimal, beautiful starter template.</p>
+              </div>
+              <div class="card">
+                <strong>Quick Tips</strong>
+                <ul>
+                  <li>Change colors in <code>:root</code> CSS variables.</li>
+                  <li>Update section IDs & links in the nav.</li>
+                  <li>Replace this preview image in the Showcase.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <strong>Status</strong>
+                <p><span class="pill">All systems operational</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===== FEATURES ===== -->
+    <section id="features">
+      <div class="container">
+        <h2 class="section-title">Everything you need to launch</h2>
+        <p class="section-sub">Thoughtful defaults and modern design patterns help you move fast.</p>
+        <div class="features">
+          <article class="feature">
+            <div class="icon" aria-hidden="true">💎</div>
+            <h3>Polished UI</h3>
+            <p>Rounded corners, soft shadows, and tasteful gradients for a premium feel out of the box.</p>
+          </article>
+          <article class="feature">
+            <div class="icon" aria-hidden="true">🧩</div>
+            <h3>Composable Sections</h3>
+            <p>Use only what you need — hero, features, showcase, stats, pricing, testimonials, and contact.</p>
+          </article>
+          <article class="feature">
+            <div class="icon" aria-hidden="true">♿</div>
+            <h3>Accessible</h3>
+            <p>Semantic HTML, focus styles, reduced‑motion support, and a visible skip‑link for keyboard users.</p>
+          </article>
+          <article class="feature">
+            <div class="icon" aria-hidden="true">🚀</div>
+            <h3>Performance</h3>
+            <p>No frameworks or blocking requests. Critical CSS is inlined for instant paint.</p>
+          </article>
+          <article class="feature">
+            <div class="icon" aria-hidden="true">🌓</div>
+            <h3>Dark & Light</h3>
+            <p>Auto‑adapts to the user’s system theme with readable contrasts.</p>
+          </article>
+          <article class="feature">
+            <div class="icon" aria-hidden="true">🛠️</div>
+            <h3>Easy to Customize</h3>
+            <p>Tweak CSS variables, swap colors, and drop in your own content in minutes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SHOWCASE ===== -->
+    <section id="showcase">
+      <div class="container showcase">
+        <div>
+          <h2 class="section-title">Show your product in the best light</h2>
+          <p class="section-sub">Make a bold first impression with an eye‑catching screenshot or graphic. Replace the background image URL below to use your own.</p>
+          <ul>
+            <li>High‑resolution background with subtle overlay.</li>
+            <li>Works great for SaaS dashboards, mobile apps, or hero images.</li>
+            <li>Rounded corners and a soft shadow for depth.</li>
+          </ul>
+          <p><a href="#pricing">Jump to pricing →</a></p>
+        </div>
+        <div class="img" role="img" aria-label="Product screenshot placeholder"></div>
+      </div>
+    </section>
+
+    <!-- ===== STATS ===== -->
+    <section>
+      <div class="container">
+        <div class="stats">
+          <div class="stat"><div class="num">5,000+</div><div class="label">Happy users</div></div>
+          <div class="stat"><div class="num">120 ms</div><div class="label">First contentful paint</div></div>
+          <div class="stat"><div class="num">99.9%</div><div class="label">Uptime</div></div>
+          <div class="stat"><div class="num">24/7</div><div class="label">Support</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PRICING ===== -->
+    <section id="pricing">
+      <div class="container">
+        <h2 class="section-title center">Simple, transparent pricing</h2>
+        <p class="section-sub center">Start free. Upgrade when you’re ready.</p>
+        <div class="pricing">
+          <div class="plan">
+            <h3>Starter</h3>
+            <div class="price">$0 <span class="muted">/ mo</span></div>
+            <ul>
+              <li>Basic components</li>
+              <li>Email support</li>
+              <li>1 project</li>
+            </ul>
+            <button class="btn ghost" aria-label="Choose Starter plan">Get Starter</button>
+          </div>
+          <div class="plan popular">
+            <h3>Pro</h3>
+            <div class="price">$19 <span class="muted">/ mo</span></div>
+            <ul>
+              <li>Everything in Starter</li>
+              <li>Unlimited projects</li>
+              <li>Priority support</li>
+            </ul>
+            <button class="btn primary" aria-label="Choose Pro plan">Go Pro</button>
+          </div>
+          <div class="plan">
+            <h3>Business</h3>
+            <div class="price">$49 <span class="muted">/ mo</span></div>
+            <ul>
+              <li>Team collaboration</li>
+              <li>SSO & advanced security</li>
+              <li>Dedicated success manager</li>
+            </ul>
+            <button class="btn ghost" aria-label="Choose Business plan">Contact Sales</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section>
+      <div class="container">
+        <h2 class="section-title">Loved by makers</h2>
+        <p class="section-sub">Real quotes from imaginary fans (yours soon!).</p>
+        <div class="testimonials">
+          <blockquote>
+            “Nova helped me launch in a weekend. The code is clean and easy to tweak.”
+            <div class="cite"><div class="avatar" aria-hidden="true"></div><span>Jules, Indie Hacker</span></div>
+          </blockquote>
+          <blockquote>
+            “Fast, accessible, and gorgeous. Exactly what I needed for my MVP.”
+            <div class="cite"><div class="avatar" aria-hidden="true"></div><span>Ari, Product Designer</span></div>
+          </blockquote>
+          <blockquote>
+            “Finally a template that doesn’t fight me. Copy‑paste and ship.”
+            <div class="cite"><div class="avatar" aria-hidden="true"></div><span>Dev, Front‑end Engineer</span></div>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact">
+      <div class="container">
+        <h2 class="section-title">Contact us</h2>
+        <p class="section-sub">Have a question? Send a message and we’ll reply within 24 hours.</p>
+        <form id="contactForm" novalidate>
+          <div class="grid-2">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" required aria-required="true" placeholder="Your name" />
+              <small class="muted" id="nameHelp">Please enter your full name.</small>
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required aria-required="true" placeholder="you@example.com" />
+              <small class="muted">We’ll never share your email.</small>
+            </div>
+          </div>
+          <div class="field">
+            <label for="topic">Topic</label>
+            <select id="topic" name="topic" aria-label="Topic">
+              <option>General</option>
+              <option>Billing</option>
+              <option>Support</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required placeholder="How can we help?"></textarea>
+          </div>
+          <button class="btn primary" type="submit">Send Message</button>
+          <p id="formStatus" class="muted" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section id="cta">
+      <div class="container center">
+        <h2 class="section-title">Ready to build something beautiful?</h2>
+        <p class="section-sub">Use Nova as your jump‑off point and customize it for your brand.</p>
+        <a class="btn primary" href="#home">Back to top</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container footgrid">
+      <div>
+        <div class="brand" style="margin-bottom:8px">
+          <div class="brand-logo" aria-hidden="true"></div>
+          <strong>Nova</strong>
+        </div>
+        <p class="muted">© <span id="year"></span> Nova. All rights reserved.</p>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Docs</a></li>
+          <li><a href="#">Changelog</a></li>
+          <li><a href="#">Community</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuBtn = document.querySelector('.menu-btn');
+    const mobile = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', () => {
+      const isOpen = mobile.classList.toggle('show');
+      menuBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    // Simple contact form validation (front‑end only)
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('formStatus');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const name = formData.get('name')?.toString().trim();
+      const email = formData.get('email')?.toString().trim();
+      const message = formData.get('message')?.toString().trim();
+
+      if(!name || !email || !message){
+        status.textContent = 'Please complete all required fields.';
+        status.style.color = 'var(--warning)';
+        return;
+      }
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if(!emailOk){
+        status.textContent = 'Please enter a valid email address.';
+        status.style.color = 'var(--danger)';
+        return;
+      }
+      status.textContent = 'Thanks! Your message was validated locally. (Connect to a backend to actually send.)';
+      status.style.color = 'var(--success)';
+      form.reset();
+    });
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+
